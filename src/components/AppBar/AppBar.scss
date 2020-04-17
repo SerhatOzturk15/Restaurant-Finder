@@ -1,0 +1,9 @@
+.app-bar {
+  justify-content: center;
+}
+
+@media screen and (max-width: 800px) {
+  .app-bar {
+    justify-content: unset;
+  }
+}

@@ -3,6 +3,7 @@ const initialState = {
   filteredRestaurants: [],
   type: "",
   filterText: "",
+  isLoading: true
 };
 
 const restaurantReducer = (state = initialState, action) => {
@@ -12,30 +13,30 @@ const restaurantReducer = (state = initialState, action) => {
         ...state,
         restaurants: action.payload.restaurants,
         filteredRestaurants: action.payload.restaurants,
-        type: ''
+        type: '',
+        isLoading: false,
+        filterText: ''
       };
     case "SET_TYPE":
       return {
         ...state,
         type: action.payload.type,
         filteredRestaurants: action.payload.restaurants,
-        filterText: ''
+        filterText: '',
+        isLoading: false
       };
     case "FILTER_RESTAURANTS":
       return {
         ...state,
         filterText: action.payload.filterText,
         filteredRestaurants: action.payload.restaurants.filter((item) =>
-          item.name.startsWith(action.payload.filterText)
+          item.name.trim().toLowerCase().includes(action.payload.filterText.toLowerCase().trim())
         ),
       };
-    case 'CLEAR_FILTERS':
+    case 'SET_LOADING':
       return {
         ...state,
-        filterText: '',
-        type: '',
-        restaurants: action.payload.restaurants,
-        filteredRestaurants: action.payload.restaurantss
+        isLoading: action.payload.isLoading
       }
     default:
       return state;

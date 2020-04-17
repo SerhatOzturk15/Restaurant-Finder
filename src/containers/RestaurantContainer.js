@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { List, Filter, ListItem, AppBar } from "./../components";
+import React, { useEffect } from "react";
+import { List, Filter, AppBar, Loading } from "./../components";
 import Container from "react-bootstrap/Container";
-import { PROXYURL, BASEURL, token } from "./../Util";
+import { getRestaurants, getRestaurantsByType } from "./../helpers/ApiHelper";
 import { useSelector, useDispatch } from "react-redux";
-import { setRestaurants, setType, filterRestaurants } from "./../actions/restaurantActions";
+import {
+  setRestaurants,
+  setType,
+  filterRestaurants,
+  setLoading
+} from "./../actions/restaurantActions";
 
 const RestaurantContainer = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const url = `${BASEURL}term=restaurants&location=Berlin&limit=10`;
-    var obj = {
-      method: "GET",
-      headers: new Headers({
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      }),
-    };
-    fetch(PROXYURL + url, obj)
-      .then((response) => response.json())
+    dispatch(setLoading(true))
+    getRestaurants()
       .then((result) => {
-        dispatch(setRestaurants(result.businesses));
+        dispatch(setRestaurants(result));
+      })
+      .catch((error) => {
+        console.log(error);
       });
-  }, []);
+  }, [dispatch]);
 
+  //redux store states
   const type = useSelector((store) => store.type);
   const restaurants = useSelector((store) => store.restaurants);
   const filteredRestaurants = useSelector((store) => store.filteredRestaurants);
   const filterText = useSelector((store) => store.filterText);
-  
-  //const [type, setType] = useState();
+  const isLoading = useSelector((store) => store.isLoading);
+
   const header = ["#", "Name", "Price", "Phone", "Rating"];
   const dropDownProps = [
     { type: "Pizza", data: "pizza" },
@@ -37,57 +38,42 @@ const RestaurantContainer = () => {
   ];
 
   const handleTypeChange = (selectedType) => {
-    const url = `${BASEURL}term=restaurants&location=Berlin&limit=10&categories=${selectedType}`;
-    var obj = {
-      method: "GET",
-      headers: new Headers({
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      }),
-    };
-    fetch(PROXYURL + url, obj)
-      .then((response) => response.json())
-      .then((result) => {
-        dispatch(setType(selectedType, result.businesses));
-      });
+    dispatch(setLoading(true))
+    getRestaurantsByType(selectedType).then((result) => {
+      dispatch(setType(selectedType, result));
+    });
   };
 
   const handleTextChange = (e) => {
     const text = e.currentTarget.value;
-    dispatch(filterRestaurants(text, restaurants))
-  }
+    dispatch(filterRestaurants(text, restaurants));
+  };
 
   const handleClearItems = () => {
-    const url = `${BASEURL}term=restaurants&location=Berlin&limit=10`;
-    var obj = {
-      method: "GET",
-      headers: new Headers({
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      }),
-    };
-    fetch(PROXYURL + url, obj)
-      .then((response) => response.json())
-      .then((result) => {
-        dispatch(setRestaurants(result.businesses));
-      });
-  }
+    dispatch(setLoading(true))
+    getRestaurants().then((result) => {
+      dispatch(setRestaurants(result));
+    });
+  };
   return (
-    <>
+    <Container>
       <AppBar title="Restaurant Finder App" />
       <Filter
-        title={"Filter by Type"}
-        clearButtonText = {'Clear all filters'}
-        inputPlaceHolder={"Search Places by their name"}
-        dropDownProps={dropDownProps}
-        handleTypeChange={handleTypeChange}
-        selectedType = {type}
-        handleTextChange = {handleTextChange}
-        handleClearItems = {handleClearItems}
-        filterText = {filterText}
-      />
+              title={"Filter by Type"}
+              clearButtonText={"Clear all filters"}
+              inputPlaceHolder={"Search by the name"}
+              dropDownProps={dropDownProps}
+              handleTypeChange={handleTypeChange}
+              selectedType={type}
+              handleTextChange={handleTextChange}
+              handleClearItems={handleClearItems}
+              filterText={filterText}
+            />
       <List header={header} limit={10} restaurants={filteredRestaurants} />
-    </>
+      {isLoading &&
+        <Loading/>
+      }
+    </Container>
   );
 };
 

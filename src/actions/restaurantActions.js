@@ -20,9 +20,9 @@ export const filterRestaurants = (filterText, restaurants) => {
     }
 }
 
-export const clearFilters = (restaurants) => {
+export const setLoading = (isLoading) => {
     return {
-        type: 'SET_RESTAURANTS',
-        payload: {restaurants}
+        type: 'SET_LOADING',
+        payload: {isLoading}
     }
 }

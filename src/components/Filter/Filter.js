@@ -1,4 +1,5 @@
 import React from "react";
+import './Filter.scss'
 import {
   InputGroup,
   Dropdown,
@@ -19,8 +20,9 @@ const Filter = ({
   handleClearItems
 }) => {
   return (
-    <InputGroup className="mb-3" style={{ marginTop: "100px" }}>
+    <InputGroup className="mb-3 filter-group">
       <DropdownButton
+        className = 'dropdown-button'
         as={InputGroup.Prepend}
         variant="outline-secondary"
         title={title}
@@ -28,6 +30,7 @@ const Filter = ({
       >
         {dropDownProps.map((item, index) => {
           return (
+            <>
             <Dropdown.Item
               key={index}
               active={selectedType === item.data}
@@ -36,6 +39,8 @@ const Filter = ({
             >
               {item.type}
             </Dropdown.Item>
+            <Dropdown.Divider className = 'divider'/>
+            </>
           );
         })}
       </DropdownButton>
@@ -45,7 +50,7 @@ const Filter = ({
         onChange={handleTextChange}
         value={filterText}
       />
-          <Button variant="dark" onClick = {handleClearItems}>{clearButtonText}</Button>
+          <Button className = 'clear-button' variant="dark" onClick = {handleClearItems}>{clearButtonText}</Button>
     </InputGroup>
   );
 };
