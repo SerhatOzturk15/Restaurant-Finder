@@ -1,9 +1,15 @@
-import React from 'react';
+import React from "react";
 
-const ListItem = () => {
+const ListItem = ({ restaurant, order }) => {
+  return (
+    <tr>
+      <td>{order}</td>
+      <td>{restaurant.name}</td>
+      <td>{restaurant.price}</td>
+      <td>{restaurant.phone}</td>
+      <td>{restaurant.rating}</td>
+    </tr>
+  );
+};
 
-    return(<>
-    </>)
-}
-
-export default ListItem
+export default ListItem;
