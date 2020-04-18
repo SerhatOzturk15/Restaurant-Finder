@@ -1,0 +1,11 @@
+.restaurant-image {
+    width: 50px;
+    height: 40px;
+}
+td:last-child {
+    width: 60px;
+}
+
+td:nth-child(4), td:nth-child(3), td:first-child {
+    width: 40px;
+}

@@ -26,3 +26,10 @@ export const setLoading = (isLoading) => {
         payload: {isLoading}
     }
 }
+
+export const setRestaurantFailure = (error) => {
+    return {
+        type: 'SET_RESTAURANT_FAILURE',
+        payload: {error}
+    }
+}

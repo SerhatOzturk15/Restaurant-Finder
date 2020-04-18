@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import {ListItem} from '../index'
+import './List.scss'
 
 const List = ({restaurants, header}) => {
 

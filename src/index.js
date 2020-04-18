@@ -4,13 +4,20 @@ import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import thunk from 'redux-thunk';
 import restaurantReducer from "./reducers/restaurantReducer";
+const initialState = {
+  restaurants: [],
+  filteredRestaurants: [],
+  type: "",
+  filterText: "",
+  isLoading: true
+};
 
 const store = createStore(
-  restaurantReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  restaurantReducer, initialState, applyMiddleware(thunk)
 );
 
 ReactDOM.render(

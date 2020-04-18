@@ -30,9 +30,8 @@ const Filter = ({
       >
         {dropDownProps.map((item, index) => {
           return (
-            <>
+            <div key={index}>
             <Dropdown.Item
-              key={index}
               active={selectedType === item.data}
               onClick={() => handleTypeChange(item.data)}
               href="#"
@@ -40,7 +39,7 @@ const Filter = ({
               {item.type}
             </Dropdown.Item>
             <Dropdown.Divider className = 'divider'/>
-            </>
+            </div>
           );
         })}
       </DropdownButton>

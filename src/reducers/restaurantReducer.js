@@ -1,12 +1,5 @@
-const initialState = {
-  restaurants: [],
-  filteredRestaurants: [],
-  type: "",
-  filterText: "",
-  isLoading: true
-};
 
-const restaurantReducer = (state = initialState, action) => {
+const restaurantReducer = (state, action) => {
   switch (action.type) {
     case "SET_RESTAURANTS":
       return {

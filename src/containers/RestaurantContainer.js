@@ -4,23 +4,13 @@ import Container from "react-bootstrap/Container";
 import { getRestaurants, getRestaurantsByType } from "./../helpers/ApiHelper";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  setRestaurants,
-  setType,
-  filterRestaurants,
-  setLoading
+  filterRestaurants
 } from "./../actions/restaurantActions";
 
 const RestaurantContainer = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setLoading(true))
-    getRestaurants()
-      .then((result) => {
-        dispatch(setRestaurants(result));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    dispatch(getRestaurants());
   }, [dispatch]);
 
   //redux store states
@@ -30,7 +20,7 @@ const RestaurantContainer = () => {
   const filterText = useSelector((store) => store.filterText);
   const isLoading = useSelector((store) => store.isLoading);
 
-  const header = ["#", "Name", "Price", "Phone", "Rating"];
+  const header = ["#", "Name", "Price", "Rating", "Photo"];
   const dropDownProps = [
     { type: "Pizza", data: "pizza" },
     { type: "Burger", data: "burgers" },
@@ -38,10 +28,8 @@ const RestaurantContainer = () => {
   ];
 
   const handleTypeChange = (selectedType) => {
-    dispatch(setLoading(true))
-    getRestaurantsByType(selectedType).then((result) => {
-      dispatch(setType(selectedType, result));
-    });
+    dispatch(getRestaurantsByType(selectedType))
+
   };
 
   const handleTextChange = (e) => {
@@ -50,10 +38,7 @@ const RestaurantContainer = () => {
   };
 
   const handleClearItems = () => {
-    dispatch(setLoading(true))
-    getRestaurants().then((result) => {
-      dispatch(setRestaurants(result));
-    });
+    dispatch(getRestaurants());
   };
   return (
     <Container>
@@ -69,7 +54,7 @@ const RestaurantContainer = () => {
               handleClearItems={handleClearItems}
               filterText={filterText}
             />
-      <List header={header} limit={10} restaurants={filteredRestaurants} />
+      <List header={header} restaurants={filteredRestaurants} />
       {isLoading &&
         <Loading/>
       }
