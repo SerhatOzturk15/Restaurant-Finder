@@ -3,6 +3,7 @@ import {
   setRestaurants,
   setType,
   setLoading,
+  setRestaurantFailure,
 } from "./../actions/restaurantActions";
 
 export const getRestaurants = () => (dispatch) => {
@@ -18,9 +19,15 @@ export const getRestaurants = () => (dispatch) => {
   fetch(PROXYURL + url, obj)
     .then((response) => response.json())
     .then((result) => {
-      dispatch(setRestaurants(result.businesses));
+      if (result && result.businesses) {
+        dispatch(setRestaurants(result.businesses));
+      } else {
+        dispatch(setLoading(false));
+      }
     })
-    .catch((error) => console.log(new Error(error)));
+    .catch((error) => {
+      dispatch(setRestaurantFailure(error));
+    });
 };
 
 export const getRestaurantsByType = (selectedType) => (dispatch) => {
@@ -36,7 +43,13 @@ export const getRestaurantsByType = (selectedType) => (dispatch) => {
   fetch(PROXYURL + url, obj)
     .then((response) => response.json())
     .then((result) => {
-      dispatch(setType(selectedType, result.businesses));
+      if (result && result.businesses) {
+        dispatch(setType(selectedType, result.businesses));
+      } else {
+        dispatch(setLoading(false));
+      }
     })
-    .catch((error) => console.log(new Error(error)));
+    .catch((error) => {
+      dispatch(setRestaurantFailure(error));
+    });
 };

@@ -1,35 +1,42 @@
+import {
+    SET_RESTAURANTS,
+    SET_TYPE,
+    FILTER_RESTAURANTS,
+    SET_LOADING,
+    SET_RESTAURANT_FAILURE,
+  } from "./../constants";
 
 export const setRestaurants = (restaurants) => {
     return {
-        type: 'SET_RESTAURANTS',
+        type: SET_RESTAURANTS,
         payload: {restaurants, type: ''}
     }
 }
 
 export const setType = (type, restaurants) => {
     return {
-        type: 'SET_TYPE',
+        type: SET_TYPE,
         payload: {type, restaurants}
     }
 }
 
 export const filterRestaurants = (filterText, restaurants) => {
     return {
-        type: 'FILTER_RESTAURANTS',
+        type: FILTER_RESTAURANTS,
         payload: {filterText, restaurants}
     }
 }
 
 export const setLoading = (isLoading) => {
     return {
-        type: 'SET_LOADING',
+        type: SET_LOADING,
         payload: {isLoading}
     }
 }
 
 export const setRestaurantFailure = (error) => {
     return {
-        type: 'SET_RESTAURANT_FAILURE',
+        type: SET_RESTAURANT_FAILURE,
         payload: {error}
     }
 }

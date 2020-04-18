@@ -6,18 +6,14 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import thunk from 'redux-thunk';
-import restaurantReducer from "./reducers/restaurantReducer";
-const initialState = {
-  restaurants: [],
-  filteredRestaurants: [],
-  type: "",
-  filterText: "",
-  isLoading: true
-};
+import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
+import allReducers from "./reducers";
 
 const store = createStore(
-  restaurantReducer, initialState, applyMiddleware(thunk)
+  allReducers,
+  {},
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 ReactDOM.render(
