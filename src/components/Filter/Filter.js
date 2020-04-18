@@ -38,7 +38,7 @@ const Filter = ({
               >
                 {item.type}
               </Dropdown.Item>
-              <Dropdown.Divider className="divider" />
+              <Dropdown.Divider className={`divider${index}`} />
             </div>
           );
         })}

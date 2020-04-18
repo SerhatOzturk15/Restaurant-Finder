@@ -18,7 +18,7 @@ const RestaurantContainer = () => {
     filteredRestaurants,
     filterText,
     isLoading,
-    error, // i havent used this, it can be used if desired, it is getting error from reducers
+    error, // i havent used this, it can be used if desired
   } = useSelector((store) => store.rest);
 
   //header values
